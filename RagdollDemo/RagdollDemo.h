@@ -48,24 +48,25 @@ class RagdollDemo : public GlutDemoApplication
 
 	btDefaultCollisionConfiguration* m_collisionConfiguration;
     // Assignment 5 ****************
-    btRigidBody*    body[10];
-    btCollisionShape*   geom[10];
+    btRigidBody*    body[14];
+    btCollisionShape*   geom[14];
     bool pause;
     // ************************
     
     // assignment 6 ****************
-    btHingeConstraint* joints[9];
+    btHingeConstraint* joints[13];
     bool oneStep = false;
     // *****************************
     
     // assignment 8 ****************
     
-    int IDs[11];
+    int IDs[15];
     int timeStepGenerations;
+    int bodyRotationFitness;
     
 public:
-    int touches[10];
-    btVector3 touchPoints[10];
+    int touches[15];
+    //btVector3 touchPoints[15];
     double weights[4][8]; // assignment 9
     long timeStep; // assignment 9
     
@@ -136,9 +137,11 @@ public:
     
     // Assignment 9 ***************
     
-    void savePosition(btRigidBody *body);
+    void saveFitness(btRigidBody *body, btRigidBody *leftFrontLeg, btRigidBody *rightFrontLeg);
     
     // ****************************
+    
+    void calcRotationAngle(btRigidBody *body, btRigidBody *arm);
 
 };
 
