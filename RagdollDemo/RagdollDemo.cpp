@@ -603,20 +603,20 @@ void RagdollDemo::initPhysics()
     //back upper left leg to main body
     CreateHinge(5, 0, 1, PointWorldToLocal(0, btVector3(1.5, 1., 1.)),
                 PointWorldToLocal(1, btVector3(1.5, 1., 1.)),
-                AxisWorldToLocal(0, btVector3(1., 0., 0.)),
-                AxisWorldToLocal(1, btVector3(1., 0., 0.)));
+                AxisWorldToLocal(0, btVector3(0., 1., 0.)),
+                AxisWorldToLocal(1, btVector3(0., 1., 0.)));
     
     //left upper front leg to main body
     CreateHinge(6, 0, 3, PointWorldToLocal(0, btVector3(-1., 1., 1.)),
                 PointWorldToLocal(3, btVector3(-1., 1., 1.)),
-                AxisWorldToLocal(0, btVector3(1., 0., 0)),
-                AxisWorldToLocal(3, btVector3(1., 0., 0)));
+                AxisWorldToLocal(0, btVector3(0., 1., 0)),
+                AxisWorldToLocal(3, btVector3(0., 1., 0)));
     
     //right upper front leg to main body
     CreateHinge(7, 0, 4, PointWorldToLocal(0, btVector3(-1., 1., -1.)),
                 PointWorldToLocal(4, btVector3(-1., 1., -1.)),
-                AxisWorldToLocal(0, btVector3(1., 0., 0)),
-                AxisWorldToLocal(4, btVector3(1., 0., 0.)));
+                AxisWorldToLocal(0, btVector3(0., 1., 0)),
+                AxisWorldToLocal(4, btVector3(0., 1., 0.)));
     
     //front arm to main body
     CreateHinge(8, 0, 9, PointWorldToLocal(0, btVector3(-2., 1., 0.)),
@@ -787,19 +787,19 @@ void RagdollDemo::CreateHinge(int jointIndex, int bodyAIndex, int bodyBIndex, co
     }
     else if (jointIndex == 4)
     {
-        hinge->setLimit(-M_PI, 0);
-    }
-    else if (jointIndex == 6)
-    {
-        hinge->setLimit(-M_PI, 0);
+        hinge->setLimit(-M_PI_2, M_PI_2);
     }
     else if (jointIndex == 5)
     {
-        hinge->setLimit(-M_PI, 0);
+        hinge->setLimit(-M_PI_2, M_PI_2);
+    }
+    else if (jointIndex == 6)
+    {
+        hinge->setLimit(-M_PI_2, M_PI_2);
     }
     else if (jointIndex == 7)
     {
-        hinge->setLimit(-M_PI, 0);
+        hinge->setLimit(-M_PI_2, M_PI_2);
     }
     else if (jointIndex == 8)
     {
@@ -1008,7 +1008,7 @@ void RagdollDemo::clientMoveAndDisplay()
                 }
                  */
                 
-                if ( i == 4)
+                if (i >= 4 && i <= 7)
                 {
                     actuateJoint2(i, motorCommand, 0, ms / 100000.f);
                 }
@@ -1016,7 +1016,6 @@ void RagdollDemo::clientMoveAndDisplay()
                 {
                     actuateJoint2(i, motorCommand, -M_PI_2, ms / 100000.f);
                 }
-                // original orientation %%%%%%%%%%%%
                 
                 
             }
@@ -1045,7 +1044,7 @@ void RagdollDemo::clientMoveAndDisplay()
          saveFitness(body[0], body[3], body[4]);
          exit(0);
      }
-     */
+    */
     
     //assignment 9 ******
     timeStepGenerations++;
