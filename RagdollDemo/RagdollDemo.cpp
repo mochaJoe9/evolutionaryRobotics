@@ -411,7 +411,7 @@ void RagdollDemo::initPhysics()
 	setTexturing(true);
 	setShadows(true);
     
-	setCameraDistance(btScalar(5.));
+	setCameraDistance(btScalar(7.5));
     
 	m_collisionConfiguration = new btDefaultCollisionConfiguration();
     
@@ -466,7 +466,7 @@ void RagdollDemo::initPhysics()
     
     // ASSIGNMENT 5 CODE ***********************************
     
-    CreateBox(0, 0., 1., 0., 2., 0.15, 1.);
+    CreateBox(0, 0., 1., 0., 2., 0.15, 1.); // main body
     CreateCylinder(1, 1.5, 1., 1.5, 0.15, 1., M_PI_2, 0., 0.); //left back upper leg
     CreateCylinder(2, 1.5, 1., -1.5, 0.15, 1., M_PI_2, 0., 0.); //right back upper leg
     CreateCylinder(3, -1., 1., 1.5, 0.15, 1., M_PI_2, 0., 0.); //left front upper leg
@@ -480,94 +480,8 @@ void RagdollDemo::initPhysics()
     CreateCylinder(11, -2.625, 1., 0.075, 0.075, 0.25, 0., 0., M_PI_2); // left lower claw
     CreateCylinder(12, -2.875, 1., -0.075, 0.075, 0.25, 0., 0., M_PI_2); // right upper claw
     CreateCylinder(13, -2.875, 1., 0.075, 0.075, 0.25, 0., 0., M_PI_2); // left upper claw
+    CreateCylinder(14, -4., 1., 0., 0.15, 1.5, 0., 0., 0.); // free standing object
     
-    //CreateCylinder(15, -3.5, 1., 0., 0.1, 2., 0., 0., 0.); // free standing object
-    
-    /*
-    // new orientation
-    //create the hinges
-    //
-    //back upper right leg to back lower right leg
-    CreateHinge(0, 2, 6, PointWorldToLocal(2, btVector3(1.5, 1., -2.)),
-                PointWorldToLocal(6, btVector3(1.5, 1., -2.)),
-                AxisWorldToLocal(2, btVector3(0., 0., 1.)),
-                AxisWorldToLocal(6, btVector3(0., 0., 1.)));
-
-    //back upper left leg to back lower left leg
-    CreateHinge(1, 1, 5, PointWorldToLocal(1, btVector3(1.5, 1., 2.)),
-                PointWorldToLocal(5, btVector3(1.5, 1., 2.)),
-                AxisWorldToLocal(1, btVector3(0., 0., -1.)),
-                AxisWorldToLocal(5, btVector3(0., 0., -1.)));
-    
-    //left upper front leg to left lower front leg
-    CreateHinge(2, 3, 7, PointWorldToLocal(3, btVector3(-1., 1., 2.)),
-                PointWorldToLocal(7, btVector3(-1., 1., 2.)),
-                AxisWorldToLocal(3, btVector3(0., 0., -1.)),
-                AxisWorldToLocal(7, btVector3(0., 0., -1.)));
-    
-    //right upper front leg to right lower front leg
-    CreateHinge(3, 4, 8, PointWorldToLocal(4, btVector3(-1., 1., -2.)),
-                PointWorldToLocal(8, btVector3(-1., 1., -2.)),
-                AxisWorldToLocal(4, btVector3(0., 0., 1.)),
-                AxisWorldToLocal(8, btVector3(0., 0., 1.)));
-    
-    //back upper right leg to main body
-    CreateHinge(4, 0, 2, PointWorldToLocal(0, btVector3(1.5, 1., -1.)),
-                PointWorldToLocal(2, btVector3(1.5, 1., -1.)),
-                AxisWorldToLocal(0, btVector3(1., 0., 0.)),
-                AxisWorldToLocal(2, btVector3(1., 0., 0.)));
-    //
-    //back upper left leg to main body
-    CreateHinge(5, 0, 1, PointWorldToLocal(0, btVector3(1.5, 1., 1.)),
-                PointWorldToLocal(1, btVector3(1.5, 1., 1.)),
-                AxisWorldToLocal(0, btVector3(1., 0., 0.)),
-                AxisWorldToLocal(1, btVector3(1., 0., 0.)));
-    
-    //left upper front leg to main body
-    CreateHinge(6, 0, 3, PointWorldToLocal(0, btVector3(-1., 1., 1.)),
-                PointWorldToLocal(3, btVector3(-1., 1., 1.)),
-                AxisWorldToLocal(0, btVector3(1., 0., 0)),
-                AxisWorldToLocal(3, btVector3(1., 0., 0)));
-    
-    //right upper front leg to main body
-    CreateHinge(7, 0, 4, PointWorldToLocal(0, btVector3(-1., 1., -1.)),
-                PointWorldToLocal(4, btVector3(-1., 1., -1.)),
-                AxisWorldToLocal(0, btVector3(1., 0., 0)),
-                AxisWorldToLocal(4, btVector3(1., 0., 0.)));
-    
-    //front arm to main body
-    CreateHinge(8, 0, 9, PointWorldToLocal(0, btVector3(-2., 1., 0.)),
-                PointWorldToLocal(9, btVector3(-2., 1., 0.)),
-                AxisWorldToLocal(0, btVector3(0., 0., 1.)),
-                AxisWorldToLocal(9, btVector3(0., 0., 1.)));
-    
-    //right lower claw to arm
-    CreateHinge(9, 9, 10, PointWorldToLocal(9, btVector3(-2.5, 1., -0.075)),
-                PointWorldToLocal(10, btVector3(-2.5, 1., -0.075)),
-                AxisWorldToLocal(9, btVector3(0., 1., 0.)),
-                AxisWorldToLocal(10, btVector3(0., 1., 0.)));
-    
-    //left lower claw to arm
-    CreateHinge(10, 9, 11, PointWorldToLocal(9, btVector3(-2.5, 1., 0.075)),
-                PointWorldToLocal(11, btVector3(-2.5, 1., 0.075)),
-                AxisWorldToLocal(9, btVector3(0., 1., 0.)),
-                AxisWorldToLocal(11, btVector3(0., 1., 0.)));
-    
-    //right lower claw to right upper claw
-    CreateHinge(11, 10, 12, PointWorldToLocal(10, btVector3(-2.75, 1., -0.075)),
-                PointWorldToLocal(12, btVector3(-2.75, 1., -0.075)),
-                AxisWorldToLocal(10, btVector3(0., 1., 0.)),
-                AxisWorldToLocal(12, btVector3(0., 1., 0.)));
-    
-    //right lower claw to right upper claw
-    CreateHinge(12, 11, 13, PointWorldToLocal(11, btVector3(-2.75, 1., 0.075)),
-                PointWorldToLocal(13, btVector3(-2.75, 1., 0.075)),
-                AxisWorldToLocal(11, btVector3(0., 1., 0.)),
-                AxisWorldToLocal(13, btVector3(0., 1., 0.)));
-*/
-    
-    
-    // original orientation %%%%%%%%%%%%%%%%%%%%
     //create the hinges
     //
     //back upper right leg to back lower right leg
@@ -714,90 +628,15 @@ void RagdollDemo::CreateHinge(int jointIndex, int bodyAIndex, int bodyBIndex, co
     btHingeConstraint* hinge = new btHingeConstraint(*body[bodyAIndex], *body[bodyBIndex], pivotInA,
                                                      pivotInB, axisInA, axisInB);
     
-    /*
-    // new orientation ***************
-    if (jointIndex == 0)
-    {
-        hinge->setLimit(-M_PI_4, M_PI_4);
-    }
-    else if (jointIndex == 1)
-    {
-        hinge->setLimit(-M_PI_4, M_PI_4);
-    }
-    else if (jointIndex == 2)
-    {
-        hinge->setLimit(-M_PI_4, M_PI_4);
-    }
-    else if(jointIndex == 3)
-    {
-        hinge->setLimit(-M_PI_4, M_PI_4);
-    }
-    else if (jointIndex == 4)
-    {
-        hinge->setLimit(-3*M_PI_4, -M_PI_4);
-    }
-    else if (jointIndex == 6)
-    {
-        hinge->setLimit(-3*M_PI_4, -M_PI_4);
-    }
-    else if (jointIndex == 5)
-    {
-        hinge->setLimit(-3*M_PI_4, -M_PI_4);
-    }
-    else if (jointIndex == 7)
-    {
-        hinge->setLimit(-3*M_PI_4, -M_PI_4);
-    }
-    else if (jointIndex == 8)
-    {
-        hinge->setLimit(-M_PI_2, 0);
-    }
-    else if (jointIndex == 9)
-    {
-        hinge->setLimit(M_PI_4, M_PI_4);
-    }
-    else if (jointIndex == 10)
-    {
-        hinge->setLimit(-M_PI_4, -M_PI_4);
-    }
-    else if (jointIndex == 11)
-    {
-        hinge->setLimit(-M_PI_2, 0);
-    }
-    else if (jointIndex == 12)
-    {
-        hinge->setLimit(0, M_PI_2);
-    }
-    // ****************************
-     */
     
-    
-    // orininal orientation ***************
-    if (jointIndex == 1 || jointIndex == 3)
+    // ***************
+    // knee joints
+    if (jointIndex >= 0 && jointIndex <= 3)
     {
-        //assignment 7 **
         hinge->setLimit(-M_PI, 0);
-        // **
     }
-    else if (jointIndex == 0 || jointIndex == 2)
-    {
-        //assignment 7 **
-        hinge->setLimit(-M_PI, 0);
-        // **
-    }
-    else if (jointIndex == 4)
-    {
-        hinge->setLimit(-M_PI_2, M_PI_2);
-    }
-    else if (jointIndex == 5)
-    {
-        hinge->setLimit(-M_PI_2, M_PI_2);
-    }
-    else if (jointIndex == 6)
-    {
-        hinge->setLimit(-M_PI_2, M_PI_2);
-    }
-    else if (jointIndex == 7)
+    // shoulder joints
+    else if (jointIndex >= 4 && jointIndex <= 7)
     {
         hinge->setLimit(-M_PI_2, M_PI_2);
     }
@@ -887,28 +726,31 @@ void RagdollDemo::renderme()
 
 // assignment 10 *************************
 
-void RagdollDemo::saveFitness(btRigidBody *body, btRigidBody *leftFrontLeg, btRigidBody *rightFrontLeg)
+void RagdollDemo::saveFitness(btRigidBody *body, btRigidBody *arm, btRigidBody *object)
 {
     btVector3 bodyPosition = body->getCenterOfMassPosition();
-    btVector3 leftLegPosition = leftFrontLeg->getCenterOfMassPosition();
-    btVector3 rightLegPosition = rightFrontLeg->getCenterOfMassPosition();
+    btVector3 armPosition = arm->getCenterOfMassPosition();
+    btVector3 objectPosition = object->getCenterOfMassPosition();
+    //btVector3 leftLegPosition = leftFrontLeg->getCenterOfMassPosition();
+    //btVector3 rightLegPosition = rightFrontLeg->getCenterOfMassPosition();
     
-    btScalar bodyXPos = bodyPosition.getX() * -1;
-    cout << "body's x position: " << bodyXPos << "\n";
+    btScalar distance = calcDistance(armPosition.getX(), armPosition.getZ(), objectPosition.getX(), objectPosition.getZ());
+    //minimize distance between arm and object
+    distance = 1 / (1 + distance);
 
     btScalar bodyZPos = abs(bodyPosition.getZ());
     cout << "body's z position: " << bodyZPos << "\n";
     bodyZPos = 1 / (1 + bodyZPos);
     cout << "body's minimized z position: " << bodyZPos << "\n";
 
-    
+    /*
     btScalar frontLegsXPos = abs(abs(leftLegPosition.getX()) - abs(rightLegPosition.getX()));
     cout << "legs difference in position: " << frontLegsXPos << "\n";
     frontLegsXPos = 1 / (1 + frontLegsXPos);
     cout << "legs minimized difference in position: " << frontLegsXPos << "\n";
+    */
     
-    
-    btScalar fitness = bodyXPos * bodyZPos * frontLegsXPos;
+    btScalar fitness = distance;
     cout << "fitness: " << fitness << "\n";
     
     ofstream fitsFile;
@@ -924,6 +766,20 @@ void RagdollDemo::saveFitness(btRigidBody *body, btRigidBody *leftFrontLeg, btRi
         exit(0);
     }
     
+}
+
+// ***************************************
+
+btScalar RagdollDemo::calcDistance(btScalar x1Position, btScalar z1Position, btScalar x2Position, btScalar z2Position)
+{
+    //cout << "1: ( " << x1Position << ", " << z1Position << " )\n";
+    //cout << "2: ( " << x2Position << ", " << z2Position << " )\n";
+    
+    btScalar distance = (x2Position - x1Position) * (x2Position - x1Position);
+    distance = distance + ( (z2Position - z1Position) * (z2Position - z1Position) );
+    distance = sqrt(distance);
+    
+    return distance;
 }
 
 // ***************************************
@@ -996,18 +852,6 @@ void RagdollDemo::clientMoveAndDisplay()
                 
                 //cout << "motorCommand " << i << ": " << motorCommand << "\n";
                 
-                /*
-                // new orientation %%%%%%%%%%%%
-                if (i < 4)
-                {
-                    actuateJoint2(i, motorCommand, 0, ms / 100000.f);
-                }
-                else
-                {
-                    actuateJoint2(i, motorCommand, -M_PI_2, ms / 100000.f);
-                }
-                 */
-                
                 if (i >= 4 && i <= 7)
                 {
                     actuateJoint2(i, motorCommand, 0, ms / 100000.f);
@@ -1038,13 +882,13 @@ void RagdollDemo::clientMoveAndDisplay()
         calcRotationAngle(body[0], body[9]);
     }
     
-    /*
+    
      if (timeStepGenerations == 1000)
      {
          saveFitness(body[0], body[3], body[4]);
          exit(0);
      }
-    */
+    
     
     //assignment 9 ******
     timeStepGenerations++;

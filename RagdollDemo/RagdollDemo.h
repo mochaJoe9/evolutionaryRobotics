@@ -48,8 +48,8 @@ class RagdollDemo : public GlutDemoApplication
 
 	btDefaultCollisionConfiguration* m_collisionConfiguration;
     // Assignment 5 ****************
-    btRigidBody*    body[14];
-    btCollisionShape*   geom[14];
+    btRigidBody*    body[15];
+    btCollisionShape*   geom[15];
     bool pause;
     // ************************
     
@@ -142,6 +142,8 @@ public:
     // ****************************
     
     void calcRotationAngle(btRigidBody *body, btRigidBody *arm);
+    
+    btScalar calcDistance(btScalar x1Position, btScalar z1Position, btScalar x2Position, btScalar z2Position);
 
 };
 
