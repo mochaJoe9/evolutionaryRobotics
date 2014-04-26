@@ -60,14 +60,15 @@ class RagdollDemo : public GlutDemoApplication
     
     // assignment 8 ****************
     
-    int IDs[15];
+    int IDs[16];
     int timeStepGenerations;
     int bodyRotationFitness;
     
 public:
     int touches[15];
     //btVector3 touchPoints[15];
-    double weights[6][8]; // assignment 9
+    double weights[4][9]; // assignment 9
+    //double **weights = NULL;
     long timeStep; // assignment 9
     
     
@@ -141,7 +142,7 @@ public:
     
     // ****************************
     
-    void calcRotationAngle(btRigidBody *body, btRigidBody *arm);
+    //void calcRotationAngle(btRigidBody *body, btRigidBody *arm);
     
     btScalar calcDistance(btScalar x1Position, btScalar z1Position, btScalar x2Position, btScalar z2Position);
 

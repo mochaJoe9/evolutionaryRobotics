@@ -126,6 +126,7 @@ def Evolve(numSensors, numMotors, numGenerations):
     #print 'parent', parent
     parentFitness = Fitness3Get(parent)
 
+
     for generation in range(0, numGenerations):
         fits[0, generation] = parentFitness
 
@@ -143,8 +144,8 @@ def Evolve(numSensors, numMotors, numGenerations):
     
 # %%%%%&&&&&&&&&&&%^^^^%&&&%^^^^^^^^%%%%%%%%%%%%%%&&&&&&&&&&&7
 
-numSensors = 6
-numMotors = 11
+numSensors = 4
+numMotors = 9
 numGenerations = 1000
 
 fits = Evolve(numSensors, numMotors, numGenerations)

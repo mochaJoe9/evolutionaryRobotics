@@ -366,7 +366,36 @@ bool myContactProcessedCallback(btManifoldPoint& cp, void* body0, void* body1)
 
 void RagdollDemo::initPhysics()
 {
-	
+    printf("hello1\n");
+    
+    /*
+    weights = new double*[4];
+    
+    for(int i = 0 ; i < 4 ; i++)
+    {
+        double* SubArray = NULL;
+        SubArray = new double[9];
+        
+        for(int j = 0 ; j < 9 ; j++)
+        {
+            SubArray[j] = (float)j;
+        }
+        
+        weights[i] = SubArray;
+    }
+    */
+
+    
+    
+    /*
+    weights = (double **) malloc(4*sizeof(double *));
+    for(int i = 0; i < 4; i++)
+    {
+        weights[i]=(double *) malloc(9*sizeof(double));
+    }
+    */
+    
+    
     timeStep = 0;
     timeStepGenerations = 0;
     bodyRotationFitness = 0;
@@ -381,24 +410,23 @@ void RagdollDemo::initPhysics()
     {
         for (int i=0; i<4; i++)
         {
-            for (int j=0; j<8; j++)
+            for (int j=0; j<9; j++)
             {
-                //synapseFile >> w;
-                //weights[i][j] = w;
-                //cout << weights[i][j] << "\n";
                 synapseFile >> weights[i][j];
-                cout << count << ": " << weights[i][j] << "\n";
-                
+                //cout << count << ": " << weights[i][j] << "\n";
+                printf("%d: %f\n", count, weights[i][j]);
                 count++;
             }
         }
         synapseFile.close();
+        //char ch = getchar();
     }
     else
     {
         cout << "unable to open file\n";
         exit(0);
     }
+    
     // assignment 8 ***************
     
     ragdollDemo = this;
@@ -440,7 +468,7 @@ void RagdollDemo::initPhysics()
 		btCollisionObject* fixedGround = new btCollisionObject();
 		fixedGround->setCollisionShape(groundShape);
 		fixedGround->setWorldTransform(groundTransform);
-        fixedGround->setUserPointer(&IDs[14]); // assignment 8
+        fixedGround->setUserPointer(&IDs[15]); // assignment 8
 		m_dynamicsWorld->addCollisionObject(fixedGround);
 #else
 		localCreateRigidBody(btScalar(0.),groundTransform,groundShape);
@@ -455,15 +483,15 @@ void RagdollDemo::initPhysics()
 	//spawnRagdoll(startOffset);
     
     // &%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&
-    
+    printf("hello2\n");
     // Assignment 8 ****************
     
-    for ( int i=0; i < 15; i++)
+    for ( int i=0; i < 16; i++)
     {
         IDs[i] = i;
         //cout << i << "\n";
     }
-    
+    printf("hello3\n");
     // ASSIGNMENT 5 CODE ***********************************
     
     CreateBox(0, 0., 1., 0., 2., 0.15, 1.); // main body
@@ -480,7 +508,9 @@ void RagdollDemo::initPhysics()
     CreateCylinder(11, -2.625, 1., 0.075, 0.075, 0.25, 0., 0., M_PI_2); // left lower claw
     CreateCylinder(12, -2.875, 1., -0.075, 0.075, 0.25, 0., 0., M_PI_2); // right upper claw
     CreateCylinder(13, -2.875, 1., 0.075, 0.075, 0.25, 0., 0., M_PI_2); // left upper claw
-    CreateCylinder(14, -4., 1., 0., 0.15, 1.5, 0., 0., 0.); // free standing object
+    CreateCylinder(14, -6., 1., 0., 0.15, 1.5, 0., 0., 0.); // free standing object
+    
+    printf("hello4\n");
     
     //create the hinges
     //
@@ -561,10 +591,11 @@ void RagdollDemo::initPhysics()
                 PointWorldToLocal(13, btVector3(-2.75, 1., 0.075)),
                 AxisWorldToLocal(11, btVector3(0., 1., 0.)),
                 AxisWorldToLocal(13, btVector3(0., 1., 0.)));
-
+    
     // *****************************************************
     
 	clientResetScene();
+    printf("hello5\n");
 }
 
 void RagdollDemo::CreateBox(int index, double x, double y, double z, double length, double width, double height)
@@ -635,11 +666,12 @@ void RagdollDemo::CreateHinge(int jointIndex, int bodyAIndex, int bodyBIndex, co
     {
         hinge->setLimit(-M_PI, 0);
     }
-    // shoulder joints
+    // hip joints
     else if (jointIndex >= 4 && jointIndex <= 7)
     {
         hinge->setLimit(-M_PI_2, M_PI_2);
     }
+    // shoulder joint
     else if (jointIndex == 8)
     {
         hinge->setLimit(-M_PI_2, 0);
@@ -680,6 +712,7 @@ void RagdollDemo::DestroyHinge(int index)
 
 void RagdollDemo::actuateJoint2(int jointIndex, double desiredAngle, double jointOffset, double timeStep)
 {
+    
     desiredAngle = desiredAngle + jointOffset;
     
     btScalar currentAngle = joints[jointIndex]->getHingeAngle();
@@ -687,22 +720,19 @@ void RagdollDemo::actuateJoint2(int jointIndex, double desiredAngle, double join
     //cout << "desired angle " << jointIndex << ": " << desiredAngle << "\n";
     
     btScalar diff = desiredAngle - currentAngle;
-    //cout << "difference: " << diff << "\n";
     diff = 6*diff;
     double maxImpulse = abs(diff*10);
     
     //cout << "diff: " << diff << "\nmaxImpulse: " << maxImpulse << "\n\n";
     
     joints[jointIndex]->enableAngularMotor(true, diff, maxImpulse);
-    //joints[jointIndex]->enableAngularMotor(true, 5.*diff, maxImpulse);
-    
-    //cout << "diff = " << diff << "\n";
 }
 
 // Assignment 8 *************************
 
 void RagdollDemo::renderme()
 {
+    
     extern GLDebugDrawer gDebugDrawer;
     
     // call parent method
@@ -731,24 +761,16 @@ void RagdollDemo::saveFitness(btRigidBody *body, btRigidBody *arm, btRigidBody *
     btVector3 bodyPosition = body->getCenterOfMassPosition();
     btVector3 armPosition = arm->getCenterOfMassPosition();
     btVector3 objectPosition = object->getCenterOfMassPosition();
-    //btVector3 leftLegPosition = leftFrontLeg->getCenterOfMassPosition();
-    //btVector3 rightLegPosition = rightFrontLeg->getCenterOfMassPosition();
     
     btScalar distance = calcDistance(armPosition.getX(), armPosition.getZ(), objectPosition.getX(), objectPosition.getZ());
     //minimize distance between arm and object
+    cout << "calculated distance: " << distance << "\n";
     distance = 1 / (1 + distance);
 
-    btScalar bodyZPos = abs(bodyPosition.getZ());
-    cout << "body's z position: " << bodyZPos << "\n";
-    bodyZPos = 1 / (1 + bodyZPos);
-    cout << "body's minimized z position: " << bodyZPos << "\n";
-
-    /*
-    btScalar frontLegsXPos = abs(abs(leftLegPosition.getX()) - abs(rightLegPosition.getX()));
-    cout << "legs difference in position: " << frontLegsXPos << "\n";
-    frontLegsXPos = 1 / (1 + frontLegsXPos);
-    cout << "legs minimized difference in position: " << frontLegsXPos << "\n";
-    */
+    //btScalar bodyZPos = abs(bodyPosition.getZ());
+    //cout << "body's z position: " << bodyZPos << "\n";
+    //bodyZPos = 1 / (1 + bodyZPos);
+    //cout << "body's minimized z position: " << bodyZPos << "\n";
     
     btScalar fitness = distance;
     cout << "fitness: " << fitness << "\n";
@@ -784,17 +806,6 @@ btScalar RagdollDemo::calcDistance(btScalar x1Position, btScalar z1Position, btS
 
 // ***************************************
 
-void RagdollDemo::calcRotationAngle(btRigidBody *body, btRigidBody *arm)
-{
-    btVector3 bodyPostition = body->getCenterOfMassPosition();
-    btVector3 armPosition = arm->getCenterOfMassPosition();
-    
-    btScalar bodyZPos = bodyPostition.getZ();
-    btScalar armZPos = armPosition.getZ();
-}
-
-// ***************************************
-
 void RagdollDemo::spawnRagdoll(const btVector3& startOffset)
 {
 	RagDoll* ragDoll = new RagDoll (m_dynamicsWorld, startOffset);
@@ -803,6 +814,7 @@ void RagdollDemo::spawnRagdoll(const btVector3& startOffset)
 
 void RagdollDemo::clientMoveAndDisplay()
 {
+    printf("hello6\n");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
 	//simple dynamics world doesn't handle fixed-time-stepping
@@ -818,7 +830,7 @@ void RagdollDemo::clientMoveAndDisplay()
     {
         touches[i] = 0;
     }
-    
+    printf("hello7\n");
     // *******************************
     
 	//if (m_dynamicsWorld)
@@ -829,22 +841,19 @@ void RagdollDemo::clientMoveAndDisplay()
 		m_dynamicsWorld->debugDrawWorld();
         
         oneStep = false;
-
+        printf("hello8\n");
         if (timeStep % 10 == 0)
         {
-            for (int i=0; i<8; i++)
+            for (int i=0; i<9; i++)
             {
                 double motorCommand = 0.0;
                 
-                //ERROR IN LOOP
- 
                 for (int j=0; j<4; j++)
                 {
                     //cout << weights[j][i] << " err\n";
                     
                     motorCommand = motorCommand + (touches[j+5] * weights[j][i]);
-                    
-                    //cout << "touchSensor " << j+5 << ": " << touches[j+5] << "\n";
+                    cout << "touchSensor " << j+5 << ": " << touches[j+5] << "\n";
                 }
  
                 motorCommand = tanh(motorCommand);
@@ -856,12 +865,16 @@ void RagdollDemo::clientMoveAndDisplay()
                 {
                     actuateJoint2(i, motorCommand, 0, ms / 100000.f);
                 }
+                else if ( i == 8 )
+                {
+                    actuateJoint2(i, motorCommand, -M_PI_4, ms / 100000.f);
+                }
                 else
                 {
                     actuateJoint2(i, motorCommand, -M_PI_2, ms / 100000.f);
                 }
                 
-                
+                printf("hello9\n");
             }
         }
         
@@ -869,19 +882,12 @@ void RagdollDemo::clientMoveAndDisplay()
         //printf("%d\n", timeStep);
 
 	}
-    
+    printf("hello10 \n");
 	renderme();
     
 	glFlush();
     
 	glutSwapBuffers();
-    
-    
-    if (timeStepGenerations % 10 == 9)
-    {
-        calcRotationAngle(body[0], body[9]);
-    }
-    
     
      if (timeStepGenerations == 1000)
      {
@@ -942,7 +948,7 @@ void RagdollDemo::keyboardCallback(unsigned char key, int x, int y)
 
 
 
-void	RagdollDemo::exitPhysics()
+void RagdollDemo::exitPhysics()
 {
     
     for (int i=0; i<14; i++)
