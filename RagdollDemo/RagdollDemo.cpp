@@ -354,10 +354,10 @@ bool myContactProcessedCallback(btManifoldPoint& cp, void* body0, void* body1)
     
     ragdollDemo->touches[*ID1] = 1;
     ragdollDemo->touches[*ID2] = 1;
-    /*
+    ///*
     ragdollDemo->touchPoints[*ID1] = cp.m_positionWorldOnB;
     ragdollDemo->touchPoints[*ID2] = cp.m_positionWorldOnB;
-*/
+    //*/
     return false;
 }
 
@@ -378,7 +378,7 @@ void RagdollDemo::initPhysics()
     int count = 1;
     if (synapseFile.is_open())
     {
-        for (int i=0; i<4; i++)
+        for (int i=0; i<6; i++)
         {
             for (int j=0; j<13; j++)
             {
@@ -712,9 +712,9 @@ void RagdollDemo::renderme()
     {
         if ( touches[i] == 1 )
         {
-            //btVector3 position = touchPoints[i];
+            btVector3 position = touchPoints[i];
             
-            //gDebugDrawer.drawSphere(position, 0.2, btVector3(1.,0.,0.));
+            gDebugDrawer.drawSphere(position, 0.2, btVector3(1.,0.,0.));
         }
     }
     
@@ -815,16 +815,23 @@ void RagdollDemo::clientMoveAndDisplay()
             {
                 double motorCommand = 0.0;
                 
-                for (int j=0; j<4; j++)
+                for (int j=0; j<6; j++)
                 {
-                    //cout << weights[j][i] << " err\n";
+                    if ( j >=0 && j <= 3)
+                    {
+                        motorCommand = motorCommand + (touches[j+5] * weights[j][i]);
+                        cout << "touchSensor " << j+5 << ": " << touches[j+5] << "\n";
+                    }
+                    else
+                    {
+                        motorCommand = motorCommand + (touches[j+6] * weights[j][i]);
+                        cout << "touchSensor " << j+6 << ": " << touches[j+6] << "\n";
+                    }
                     
-                    motorCommand = motorCommand + (touches[j+5] * weights[j][i]);
-                    cout << "touchSensor " << j+5 << ": " << touches[j+5] << "\n";
                 }
  
                 motorCommand = tanh(motorCommand);
-                if ( i >= 9 && i <= 12 )
+                if ( i >= 11 && i <= 12 )
                 {
                     motorCommand = motorCommand * M_PI_2;
                 }
