@@ -145,7 +145,7 @@ def Evolve(numSensors, numMotors, numGenerations):
 # %%%%%&&&&&&&&&&&%^^^^%&&&%^^^^^^^^%%%%%%%%%%%%%%&&&&&&&&&&&7
 
 numSensors = 4
-numMotors = 9
+numMotors = 11
 numGenerations = 1000
 
 fits = Evolve(numSensors, numMotors, numGenerations)

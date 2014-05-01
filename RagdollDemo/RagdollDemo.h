@@ -67,7 +67,7 @@ class RagdollDemo : public GlutDemoApplication
 public:
     int touches[15];
     //btVector3 touchPoints[15];
-    double weights[4][9]; // assignment 9
+    double weights[4][11]; // assignment 9
     //double **weights = NULL;
     long timeStep; // assignment 9
     

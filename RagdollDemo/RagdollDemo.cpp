@@ -366,7 +366,6 @@ bool myContactProcessedCallback(btManifoldPoint& cp, void* body0, void* body1)
 
 void RagdollDemo::initPhysics()
 {
-    printf("hello1\n");
     
     /*
     weights = new double*[4];
@@ -410,7 +409,7 @@ void RagdollDemo::initPhysics()
     {
         for (int i=0; i<4; i++)
         {
-            for (int j=0; j<9; j++)
+            for (int j=0; j<11; j++)
             {
                 synapseFile >> weights[i][j];
                 //cout << count << ": " << weights[i][j] << "\n";
@@ -483,7 +482,6 @@ void RagdollDemo::initPhysics()
 	//spawnRagdoll(startOffset);
     
     // &%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&%&
-    printf("hello2\n");
     // Assignment 8 ****************
     
     for ( int i=0; i < 16; i++)
@@ -491,18 +489,17 @@ void RagdollDemo::initPhysics()
         IDs[i] = i;
         //cout << i << "\n";
     }
-    printf("hello3\n");
     // ASSIGNMENT 5 CODE ***********************************
     
     CreateBox(0, 0., 1., 0., 2., 0.15, 1.); // main body
     CreateCylinder(1, 1.5, 1., 1.5, 0.15, 1., M_PI_2, 0., 0.); //left back upper leg
     CreateCylinder(2, 1.5, 1., -1.5, 0.15, 1., M_PI_2, 0., 0.); //right back upper leg
-    CreateCylinder(3, -1., 1., 1.5, 0.15, 1., M_PI_2, 0., 0.); //left front upper leg
-    CreateCylinder(4, -1., 1., -1.5, 0.15, 1., M_PI_2, 0., 0.); // right front upper leg
+    CreateCylinder(3, -1.5, 1., 1.5, 0.15, 1., M_PI_2, 0., 0.); //left front upper leg
+    CreateCylinder(4, -1.5, 1., -1.5, 0.15, 1., M_PI_2, 0., 0.); // right front upper leg
     CreateCylinder(5, 1.5, 0.5, 2., 0.15, 1., 0., 0., 0.); //left back lower leg
     CreateCylinder(6, 1.5, 0.5, -2., 0.15, 1., 0., 0., 0.); //right back lower leg
-    CreateCylinder(7, -1., 0.5, 2., 0.15, 1., 0., 0., 0.); //left front lower leg
-    CreateCylinder(8, -1., 0.5, -2., 0.15, 1., 0., 0., 0.); //right front lower leg
+    CreateCylinder(7, -1.5, 0.5, 2., 0.15, 1., 0., 0., 0.); //left front lower leg
+    CreateCylinder(8, -1.5, 0.5, -2., 0.15, 1., 0., 0., 0.); //right front lower leg
     CreateCylinder(9, -2.25, 1., 0., 0.15, 0.5, 0., 0., M_PI_2); // front arm
     CreateCylinder(10, -2.625, 1., -0.075, 0.075, 0.25, 0., 0., M_PI_2); // right lower claw
     CreateCylinder(11, -2.625, 1., 0.075, 0.075, 0.25, 0., 0., M_PI_2); // left lower claw
@@ -510,7 +507,6 @@ void RagdollDemo::initPhysics()
     CreateCylinder(13, -2.875, 1., 0.075, 0.075, 0.25, 0., 0., M_PI_2); // left upper claw
     CreateCylinder(14, -6., 1., 0., 0.15, 1.5, 0., 0., 0.); // free standing object
     
-    printf("hello4\n");
     
     //create the hinges
     //
@@ -527,8 +523,8 @@ void RagdollDemo::initPhysics()
                 AxisWorldToLocal(5, btVector3(-1., 0., 0.)));
     
     //left upper front leg to left lower front leg
-    CreateHinge(2, 3, 7, PointWorldToLocal(3, btVector3(-1., 1., 2.)),
-                PointWorldToLocal(7, btVector3(-1., 1., 2.)),
+    CreateHinge(2, 3, 7, PointWorldToLocal(3, btVector3(-1.5, 1., 2.)),
+                PointWorldToLocal(7, btVector3(-1.5, 1., 2.)),
                 AxisWorldToLocal(3, btVector3(-1., 0., 0.)),
                 AxisWorldToLocal(7, btVector3(-1., 0., 0.)));
     
@@ -551,14 +547,14 @@ void RagdollDemo::initPhysics()
                 AxisWorldToLocal(1, btVector3(0., 1., 0.)));
     
     //left upper front leg to main body
-    CreateHinge(6, 0, 3, PointWorldToLocal(0, btVector3(-1., 1., 1.)),
-                PointWorldToLocal(3, btVector3(-1., 1., 1.)),
+    CreateHinge(6, 0, 3, PointWorldToLocal(0, btVector3(-1.5, 1., 1.)),
+                PointWorldToLocal(3, btVector3(-1.5, 1., 1.)),
                 AxisWorldToLocal(0, btVector3(0., 1., 0)),
                 AxisWorldToLocal(3, btVector3(0., 1., 0)));
     
     //right upper front leg to main body
-    CreateHinge(7, 0, 4, PointWorldToLocal(0, btVector3(-1., 1., -1.)),
-                PointWorldToLocal(4, btVector3(-1., 1., -1.)),
+    CreateHinge(7, 0, 4, PointWorldToLocal(0, btVector3(-1.5, 1., -1.)),
+                PointWorldToLocal(4, btVector3(-1.5, 1., -1.)),
                 AxisWorldToLocal(0, btVector3(0., 1., 0)),
                 AxisWorldToLocal(4, btVector3(0., 1., 0.)));
     
@@ -586,7 +582,7 @@ void RagdollDemo::initPhysics()
                 AxisWorldToLocal(10, btVector3(0., 1., 0.)),
                 AxisWorldToLocal(12, btVector3(0., 1., 0.)));
     
-    //right lower claw to right upper claw
+    //left lower claw to left upper claw
     CreateHinge(12, 11, 13, PointWorldToLocal(11, btVector3(-2.75, 1., 0.075)),
                 PointWorldToLocal(13, btVector3(-2.75, 1., 0.075)),
                 AxisWorldToLocal(11, btVector3(0., 1., 0.)),
@@ -595,7 +591,6 @@ void RagdollDemo::initPhysics()
     // *****************************************************
     
 	clientResetScene();
-    printf("hello5\n");
 }
 
 void RagdollDemo::CreateBox(int index, double x, double y, double z, double length, double width, double height)
@@ -684,6 +679,7 @@ void RagdollDemo::CreateHinge(int jointIndex, int bodyAIndex, int bodyBIndex, co
     {
         hinge->setLimit(-M_PI_4, -M_PI_4);
     }
+    // outer claws
     else if (jointIndex == 11)
     {
         hinge->setLimit(-M_PI_2, 0);
@@ -814,7 +810,6 @@ void RagdollDemo::spawnRagdoll(const btVector3& startOffset)
 
 void RagdollDemo::clientMoveAndDisplay()
 {
-    printf("hello6\n");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
 	//simple dynamics world doesn't handle fixed-time-stepping
@@ -830,7 +825,6 @@ void RagdollDemo::clientMoveAndDisplay()
     {
         touches[i] = 0;
     }
-    printf("hello7\n");
     // *******************************
     
 	//if (m_dynamicsWorld)
@@ -841,10 +835,9 @@ void RagdollDemo::clientMoveAndDisplay()
 		m_dynamicsWorld->debugDrawWorld();
         
         oneStep = false;
-        printf("hello8\n");
         if (timeStep % 10 == 0)
         {
-            for (int i=0; i<9; i++)
+            for (int i=0; i<11; i++)
             {
                 double motorCommand = 0.0;
                 
@@ -860,7 +853,7 @@ void RagdollDemo::clientMoveAndDisplay()
                 motorCommand = motorCommand * M_PI_4;
                 
                 //cout << "motorCommand " << i << ": " << motorCommand << "\n";
-                
+                ///*
                 if (i >= 4 && i <= 7)
                 {
                     actuateJoint2(i, motorCommand, 0, ms / 100000.f);
@@ -869,12 +862,19 @@ void RagdollDemo::clientMoveAndDisplay()
                 {
                     actuateJoint2(i, motorCommand, -M_PI_4, ms / 100000.f);
                 }
+                else if ( i == 9 )
+                {
+                    actuateJoint2(i+2, motorCommand, -M_PI_4, ms / 100000.f);
+                }
+                else if ( i == 10 )
+                {
+                    actuateJoint2(i+2, motorCommand, M_PI_4, ms / 100000.f);
+                }
                 else
                 {
                     actuateJoint2(i, motorCommand, -M_PI_2, ms / 100000.f);
                 }
-                
-                printf("hello9\n");
+                //*/
             }
         }
         
@@ -882,19 +882,18 @@ void RagdollDemo::clientMoveAndDisplay()
         //printf("%d\n", timeStep);
 
 	}
-    printf("hello10 \n");
 	renderme();
     
 	glFlush();
     
 	glutSwapBuffers();
-    
+    ///*
      if (timeStepGenerations == 1000)
      {
          saveFitness(body[0], body[3], body[4]);
          exit(0);
      }
-    
+    //*/
     
     //assignment 9 ******
     timeStepGenerations++;
