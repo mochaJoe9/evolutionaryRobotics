@@ -366,35 +366,6 @@ bool myContactProcessedCallback(btManifoldPoint& cp, void* body0, void* body1)
 
 void RagdollDemo::initPhysics()
 {
-    
-    /*
-    weights = new double*[4];
-    
-    for(int i = 0 ; i < 4 ; i++)
-    {
-        double* SubArray = NULL;
-        SubArray = new double[9];
-        
-        for(int j = 0 ; j < 9 ; j++)
-        {
-            SubArray[j] = (float)j;
-        }
-        
-        weights[i] = SubArray;
-    }
-    */
-
-    
-    
-    /*
-    weights = (double **) malloc(4*sizeof(double *));
-    for(int i = 0; i < 4; i++)
-    {
-        weights[i]=(double *) malloc(9*sizeof(double));
-    }
-    */
-    
-    
     timeStep = 0;
     timeStepGenerations = 0;
     bodyRotationFitness = 0;
@@ -409,7 +380,7 @@ void RagdollDemo::initPhysics()
     {
         for (int i=0; i<4; i++)
         {
-            for (int j=0; j<11; j++)
+            for (int j=0; j<13; j++)
             {
                 synapseFile >> weights[i][j];
                 //cout << count << ": " << weights[i][j] << "\n";
@@ -671,19 +642,22 @@ void RagdollDemo::CreateHinge(int jointIndex, int bodyAIndex, int bodyBIndex, co
     {
         hinge->setLimit(-M_PI_2, 0);
     }
+    //right inner claw
     else if (jointIndex == 9)
     {
-        hinge->setLimit(M_PI_4, M_PI_4);
+        hinge->setLimit(0, M_PI_2);
     }
+    //left inner claw
     else if (jointIndex == 10)
     {
-        hinge->setLimit(-M_PI_4, -M_PI_4);
+        hinge->setLimit(-M_PI_2, 0);
     }
-    // outer claws
+    // right outer claw
     else if (jointIndex == 11)
     {
         hinge->setLimit(-M_PI_2, 0);
     }
+    //left outer claw
     else if (jointIndex == 12)
     {
         hinge->setLimit(0, M_PI_2);
@@ -837,7 +811,7 @@ void RagdollDemo::clientMoveAndDisplay()
         oneStep = false;
         if (timeStep % 10 == 0)
         {
-            for (int i=0; i<11; i++)
+            for (int i=0; i<13; i++)
             {
                 double motorCommand = 0.0;
                 
@@ -850,7 +824,15 @@ void RagdollDemo::clientMoveAndDisplay()
                 }
  
                 motorCommand = tanh(motorCommand);
-                motorCommand = motorCommand * M_PI_4;
+                if ( i >= 9 && i <= 12 )
+                {
+                    motorCommand = motorCommand * M_PI_2;
+                }
+                else
+                {
+                    motorCommand = motorCommand * M_PI_4;
+                }
+                
                 
                 //cout << "motorCommand " << i << ": " << motorCommand << "\n";
                 ///*
@@ -864,11 +846,19 @@ void RagdollDemo::clientMoveAndDisplay()
                 }
                 else if ( i == 9 )
                 {
-                    actuateJoint2(i+2, motorCommand, -M_PI_4, ms / 100000.f);
+                    actuateJoint2(i, motorCommand, M_PI_4, ms / 100000.f);
                 }
                 else if ( i == 10 )
                 {
-                    actuateJoint2(i+2, motorCommand, M_PI_4, ms / 100000.f);
+                    actuateJoint2(i, motorCommand, -M_PI_4, ms / 100000.f);
+                }
+                else if ( i == 11 )
+                {
+                    actuateJoint2(i, motorCommand, -M_PI_4, ms / 100000.f);
+                }
+                else if ( i == 12 )
+                {
+                    actuateJoint2(i, motorCommand, M_PI_4, ms / 100000.f);
                 }
                 else
                 {
