@@ -58,11 +58,14 @@ class RagdollDemo : public GlutDemoApplication
     bool oneStep = false;
     // *****************************
     
+    btVector3 endOfArm;
+    
     // assignment 8 ****************
     
     int IDs[16];
-    int timeStepGenerations;
+    //int timeStepGenerations;
     int bodyRotationFitness;
+    //int collisionsWithObject;
     
 public:
     int touches[15];
@@ -115,6 +118,8 @@ public:
     btVector3 PointWorldToLocal( int bodyIndex, btVector3 point );
     
     btVector3 AxisWorldToLocal( int bodyIndex, btVector3 point );
+ 
+    btVector3 PointLocalToWorld( int bodyIndex, btVector3 point );
     
     void CreateHinge( int jointIndex, int bodyAIndex, int bodyBIndex, const btVector3& pivotInA,
                      const btVector3& pivotInB, const btVector3& axisInA, const btVector3& axisInB );
@@ -138,7 +143,7 @@ public:
     
     // Assignment 9 ***************
     
-    void saveFitness(btRigidBody *body, btRigidBody *leftFrontLeg, btRigidBody *rightFrontLeg);
+    void saveFitness(btRigidBody *object);
     
     // ****************************
     
