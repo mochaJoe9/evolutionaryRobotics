@@ -64,13 +64,11 @@ class RagdollDemo : public GlutDemoApplication
     
     int IDs[16];
     //int timeStepGenerations;
-    int bodyRotationFitness;
-    //int collisionsWithObject;
     
 public:
     int touches[15];
     btVector3 touchPoints[15];
-    double weights[6][13]; // assignment 9
+    double weights[8][13]; // assignment 9
     //double **weights = NULL;
     long timeStep; // assignment 9
     

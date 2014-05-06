@@ -71,6 +71,11 @@ def MeanDistance(actual, desired):
 
     return mean
 
+# %%%%%&&&&&&&&&&&%%%%%%&&&&&&&&&&&%
+def VectorCreate(size):
+    vector = zeros( (size), dtype = 'f' )
+    return vector
+
 #%%%%%&&&&&&&&&&&%%%%%%&&&&&&&&&&&%
 def PlotImage(matrix, figNum):
     plt.figure(figNum)
@@ -119,7 +124,7 @@ def FitnessCollectFromFile(fitFileName):
 
 #%%%%%&&&&&&&&&&&%%%%%%&&&&&&&&&&&%
 def Evolve(numSensors, numMotors, numGenerations):
-    fits = MatrixCreate(1, numGenerations)
+    fits = VectorCreate(numGenerations)
 
     parent = MatrixCreate(numSensors, numMotors)
     parent = MatrixRandomize(parent)
@@ -128,7 +133,7 @@ def Evolve(numSensors, numMotors, numGenerations):
 
 
     for generation in range(0, numGenerations):
-        fits[0, generation] = parentFitness
+        fits[generation] = parentFitness
 
         child = MatrixPerturb(parent, 0.05)
         childFitness = Fitness3Get(child)
@@ -144,8 +149,12 @@ def Evolve(numSensors, numMotors, numGenerations):
     
 # %%%%%&&&&&&&&&&&%^^^^%&&&%^^^^^^^^%%%%%%%%%%%%%%&&&&&&&&&&&7
 
-numSensors = 6
+numSensors = 8
 numMotors = 13
-numGenerations = 1000
+numGenerations = 250
 
 fits = Evolve(numSensors, numMotors, numGenerations)
+
+plt.figure(1)
+plt.plot(fits)
+plt.show()
